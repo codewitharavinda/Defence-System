@@ -41,7 +41,7 @@ public class Submarine extends javax.swing.JFrame implements Observer{
         jLabel2 = new javax.swing.JLabel();
         btnTridentMissile = new javax.swing.JButton();
         btnSubShoot = new javax.swing.JButton();
-        jCheckBox1 = new javax.swing.JCheckBox();
+        btnSubmarinePosition = new javax.swing.JCheckBox();
         jSlider2 = new javax.swing.JSlider();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
@@ -61,6 +61,12 @@ public class Submarine extends javax.swing.JFrame implements Observer{
         btnTomaMissile.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnTomaMissileActionPerformed(evt);
+            }
+        });
+
+        txtFieldSubMessage.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtFieldSubMessageActionPerformed(evt);
             }
         });
 
@@ -94,10 +100,10 @@ public class Submarine extends javax.swing.JFrame implements Observer{
 
         btnSubShoot.setText("Shoot");
 
-        jCheckBox1.setText("Position");
-        jCheckBox1.addActionListener(new java.awt.event.ActionListener() {
+        btnSubmarinePosition.setText("Position");
+        btnSubmarinePosition.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox1ActionPerformed(evt);
+                btnSubmarinePositionActionPerformed(evt);
             }
         });
 
@@ -145,7 +151,7 @@ public class Submarine extends javax.swing.JFrame implements Observer{
                                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(spnSubSoilder, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jCheckBox1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(btnSubmarinePosition, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(17, 17, 17)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -189,7 +195,7 @@ public class Submarine extends javax.swing.JFrame implements Observer{
                                     .addComponent(spnSubAmmo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jCheckBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(btnSubmarinePosition, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(45, 45, 45)))
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -221,24 +227,30 @@ public class Submarine extends javax.swing.JFrame implements Observer{
     }//GEN-LAST:event_btnTomaMissileActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
+        String Msg = "Submarine: " + txtFieldSubMessage.getText();
+        MainController.sendMsgTo(Msg);
+        txtFieldSubMessage.setText("");
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void btnTridentMissileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTridentMissileActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnTridentMissileActionPerformed
 
-    private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
+    private void btnSubmarinePositionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubmarinePositionActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jCheckBox1ActionPerformed
+    }//GEN-LAST:event_btnSubmarinePositionActionPerformed
+
+    private void txtFieldSubMessageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFieldSubMessageActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtFieldSubMessageActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnSubMissile;
     private javax.swing.JButton btnSubShoot;
+    private javax.swing.JCheckBox btnSubmarinePosition;
     private javax.swing.JButton btnTomaMissile;
     private javax.swing.JButton btnTridentMissile;
     private javax.swing.JButton jButton4;
-    private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -263,16 +275,72 @@ public class Submarine extends javax.swing.JFrame implements Observer{
 
     @Override
     public void getMsg(String Msg) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        txtAreaSubMessage.append("Main Controller: " + Msg +"\n");
     }
 
     @Override
-    public void setPosition(int Position) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void setPosition(int position) {
+        if (btnSubmarinePosition.isSelected()){
+            //Assending
+            if (position>80){
+                btnSubShoot.setEnabled(true);
+                btnSubMissile.setEnabled(true);
+                btnTomaMissile.setEnabled(true);
+                btnTridentMissile.setEnabled(true);
+            
+            } else if (position>60){
+                btnSubShoot.setEnabled(true);
+                btnSubMissile.setEnabled(true);
+                btnTomaMissile.setEnabled(true);
+                btnTridentMissile.setEnabled(false);
+            
+            } else if (position>40){
+                btnSubShoot.setEnabled(true);
+                btnSubMissile.setEnabled(true);
+                btnTomaMissile.setEnabled(false);
+                btnTridentMissile.setEnabled(false);
+             
+            } else if (position>20){
+                btnSubShoot.setEnabled(true);
+                btnSubMissile.setEnabled(false);
+                btnTomaMissile.setEnabled(false);
+                btnTridentMissile.setEnabled(false);
+            }
+            
+            //disending
+            if (position<20){
+                btnSubShoot.setEnabled(false);
+                btnSubMissile.setEnabled(false);
+                btnTomaMissile.setEnabled(false);
+                btnTridentMissile.setEnabled(false);
+            
+            } else if (position<40){
+                btnSubShoot.setEnabled(true);
+                btnSubMissile.setEnabled(false);
+                btnTomaMissile.setEnabled(false);
+                btnTridentMissile.setEnabled(false);
+            
+            } else if (position<60){
+                btnSubShoot.setEnabled(true);
+                btnSubMissile.setEnabled(true);
+                btnTomaMissile.setEnabled(false);
+                btnTridentMissile.setEnabled(false);
+             
+            } else if (position<80){
+                btnSubShoot.setEnabled(true);
+                btnSubMissile.setEnabled(true);
+                btnTomaMissile.setEnabled(true);
+                btnTridentMissile.setEnabled(false);
+            }
+    }
     }
 
     @Override
-    public void update() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void setPrvtMsg(String name, String msg) {
+        if("Submarine".equals(name)){
+            txtAreaSubMessage.append("Main Controller: " + msg +"\n"); 
+        }
     }
+
+    
 }

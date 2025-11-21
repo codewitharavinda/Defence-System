@@ -14,7 +14,7 @@ public class Tank extends javax.swing.JFrame implements Observer{
         setVisible(true);
         this.controlroom=controlRoom;
         
-        btnTankLaser.setEnabled(false);
+        btnTankRedar.setEnabled(false);
         btnTankMissile.setEnabled(false);
         btnTankShoot.setEnabled(false);
         btnTankRotate.setEnabled(false);
@@ -31,7 +31,7 @@ public class Tank extends javax.swing.JFrame implements Observer{
         btnTankShoot = new javax.swing.JButton();
         btnTankMissile = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
-        btnTankLaser = new javax.swing.JButton();
+        btnTankRedar = new javax.swing.JButton();
         txtFieldTank = new javax.swing.JTextField();
         btnTankSend = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -58,10 +58,10 @@ public class Tank extends javax.swing.JFrame implements Observer{
 
         jLabel3.setText("Solider Count");
 
-        btnTankLaser.setText("Redar Operation");
-        btnTankLaser.addActionListener(new java.awt.event.ActionListener() {
+        btnTankRedar.setText("Redar Operation");
+        btnTankRedar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnTankLaserActionPerformed(evt);
+                btnTankRedarActionPerformed(evt);
             }
         });
 
@@ -112,7 +112,7 @@ public class Tank extends javax.swing.JFrame implements Observer{
                                 .addGroup(layout.createSequentialGroup()
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                         .addComponent(btnTankShoot, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(btnTankLaser, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE))
+                                        .addComponent(btnTankRedar, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE))
                                     .addGap(6, 6, 6)
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                         .addComponent(btnTankRotate, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -149,7 +149,7 @@ public class Tank extends javax.swing.JFrame implements Observer{
                             .addComponent(btnTankMissile, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnTankLaser, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnTankRedar, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnTankRotate, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
@@ -173,7 +173,7 @@ public class Tank extends javax.swing.JFrame implements Observer{
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(sldTank, javax.swing.GroupLayout.PREFERRED_SIZE, 488, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(31, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -183,12 +183,14 @@ public class Tank extends javax.swing.JFrame implements Observer{
         // TODO add your handling code here:
     }//GEN-LAST:event_btnTankMissileActionPerformed
 
-    private void btnTankLaserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTankLaserActionPerformed
+    private void btnTankRedarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTankRedarActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnTankLaserActionPerformed
+    }//GEN-LAST:event_btnTankRedarActionPerformed
 
     private void btnTankSendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTankSendActionPerformed
-        // TODO add your handling code here:
+        String Msg = "Tank: " + txtFieldTank.getText();
+        MainController.sendMsgTo(Msg);
+        txtFieldTank.setText("");
     }//GEN-LAST:event_btnTankSendActionPerformed
 
     private void btnTankRotateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTankRotateActionPerformed
@@ -196,14 +198,19 @@ public class Tank extends javax.swing.JFrame implements Observer{
     }//GEN-LAST:event_btnTankRotateActionPerformed
 
     private void btnTankPositionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTankPositionActionPerformed
-        // TODO add your handling code here:
+        if(!(btnTankPosition.isSelected())){
+                btnTankShoot.setEnabled(false);
+                btnTankMissile.setEnabled(false);
+                btnTankRedar.setEnabled(false);
+                btnTankRotate.setEnabled(false);
+        }
     }//GEN-LAST:event_btnTankPositionActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnTankLaser;
     private javax.swing.JButton btnTankMissile;
     private javax.swing.JCheckBox btnTankPosition;
+    private javax.swing.JButton btnTankRedar;
     private javax.swing.JButton btnTankRotate;
     private javax.swing.JButton btnTankSend;
     private javax.swing.JButton btnTankShoot;
@@ -229,16 +236,72 @@ public class Tank extends javax.swing.JFrame implements Observer{
 
     @Override
     public void getMsg(String Msg) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        txtTankMessage.append("Main Controller: " + Msg +"\n");
     }
 
     @Override
-    public void setPosition(int Position) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void setPosition(int position) {
+        if (btnTankPosition.isSelected()){
+            //Assending
+            if (position>80){
+                btnTankShoot.setEnabled(true);
+                btnTankMissile.setEnabled(true);
+                btnTankRedar.setEnabled(true);
+                btnTankRotate.setEnabled(true);
+            
+            } else if (position>60){
+                btnTankShoot.setEnabled(true);
+                btnTankMissile.setEnabled(true);
+                btnTankRedar.setEnabled(true);
+                btnTankRotate.setEnabled(false);
+            
+            } else if (position>40){
+                btnTankShoot.setEnabled(true);
+                btnTankMissile.setEnabled(true);
+                btnTankRedar.setEnabled(false);
+                btnTankRotate.setEnabled(false);
+             
+            } else if (position>20){
+                btnTankShoot.setEnabled(true);
+                btnTankMissile.setEnabled(false);
+                btnTankRedar.setEnabled(false);
+                btnTankRotate.setEnabled(false);
+            }
+            
+            //disending
+            if (position<20){
+                btnTankShoot.setEnabled(false);
+                btnTankMissile.setEnabled(false);
+                btnTankRedar.setEnabled(false);
+                btnTankRotate.setEnabled(false);
+            
+            } else if (position<40){
+                btnTankShoot.setEnabled(true);
+                btnTankMissile.setEnabled(false);
+                btnTankRedar.setEnabled(false);
+                btnTankRotate.setEnabled(false);
+            
+            } else if (position<60){
+                btnTankShoot.setEnabled(true);
+                btnTankMissile.setEnabled(true);
+                btnTankRedar.setEnabled(false);
+                btnTankRotate.setEnabled(false);
+             
+            } else if (position<80){
+                btnTankShoot.setEnabled(true);
+                btnTankMissile.setEnabled(true);
+                btnTankRedar.setEnabled(true);
+                btnTankRotate.setEnabled(false);
+            }
+        }
+
     }
 
     @Override
-    public void update() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void setPrvtMsg(String name, String msg) {
+        if("Tank".equals(name)){
+            txtTankMessage.append("Main Controller: " + msg +"\n"); 
+        }
     }
+    
 }

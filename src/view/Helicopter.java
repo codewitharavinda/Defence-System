@@ -163,7 +163,10 @@ public class Helicopter extends javax.swing.JFrame implements Observer{
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnHelicopterSendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHelicopterSendActionPerformed
-        // TODO add your handling code here:
+        String Msg = "Helicopter: "+txtFieldHelicopter.getText();
+        MainController.sendMsgTo(Msg);
+        txtFieldHelicopter.setText("");
+        
     }//GEN-LAST:event_btnHelicopterSendActionPerformed
 
     private void btnLaserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLaserActionPerformed
@@ -203,16 +206,60 @@ public class Helicopter extends javax.swing.JFrame implements Observer{
 
     @Override
     public void getMsg(String Msg) {
-        
+        txtHelicopterMessage.append("Main Controller: " + Msg +"\n");
     }
 
     @Override
-    public void setPosition(int Position) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void setPosition(int position) {
+        if (btnHelicopterPosition.isSelected()){
+            //Assending
+            if (position>60){
+                btnShoot.setEnabled(true);
+                btnLaser.setEnabled(true);
+                btnMissile.setEnabled(true);
+            
+            } else if (position>40){
+                btnShoot.setEnabled(true);
+                btnLaser.setEnabled(false);
+                btnMissile.setEnabled(true);
+            
+            } else if (position>20){
+                btnShoot.setEnabled(true);
+                btnLaser.setEnabled(false);
+                btnMissile.setEnabled(false);
+             
+            }
+            
+            //disending
+            if (position<20){
+                btnShoot.setEnabled(false);
+                btnLaser.setEnabled(false);
+                btnMissile.setEnabled(false);
+            
+            } else if (position<40){
+                btnShoot.setEnabled(true);
+                btnLaser.setEnabled(false);
+                btnMissile.setEnabled(false);
+            
+            } else if (position<60){
+                btnShoot.setEnabled(true);
+                btnLaser.setEnabled(true);
+                btnMissile.setEnabled(false);
+             
+            }
+            
+            
+            
+            
+        }
     }
 
+
+
     @Override
-    public void update() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void setPrvtMsg(String name, String msg) {
+        if("Helicopter".equals(name)){
+            txtHelicopterMessage.append("Main Controller: " + msg +"\n");  
+        }
     }
 }

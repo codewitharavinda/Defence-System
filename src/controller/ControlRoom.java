@@ -26,4 +26,20 @@ public class ControlRoom {
         }
         
     }
+    
+    public void setValue(int value){
+        for (int i = 0; i < nextIndex; i++) {
+            Observer ob=observerArray[i];
+            ob.setPosition(value);
+            
+        }
+    }
+    
+    public void sendPrivateDefenceMsg(String name,String msg){
+        for (int i = 0; i < nextIndex; i++) {
+            Observer ob=observerArray[i];
+            ob.setPrvtMsg(name, msg);
+        }
+    } 
+    
 }
